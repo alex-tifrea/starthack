@@ -12,6 +12,7 @@ import qrcode
 from qrcode.image.pure import PymagingImage
 
 import uuid
+import subprocess
 
 # Create your views here.
 
@@ -46,6 +47,8 @@ def encode_qr(request):
     payload = 'something something'
     # TODO: Replace this with actual uid
     uid = "id1"
+#     payload = request.body
+#     uid = request.POST.get("uid", "")
 
     # Import public key from DB
 #     str_pubkey = UserInfo.objects.get(uid=uid).pub_key
@@ -56,7 +59,9 @@ def encode_qr(request):
     # TODO: Use some actual encryption. Maybe.
 #     encrypted_payload = keyPub.encrypt(payload, 0)
 
-    encrypted_payload = bytes(payload, 'ascii')
+    result = subprocess.run(['python2 crypto_helper.py', formatted_pubkey + " " + payload], stdout=subprocess.PIPE)
+    #encrypted_payload = pubkey_obj.encrypt(payload)
+    encrypted_payload = result.stdout
 
     img_file = 'test.png'
     img = qrcode.make(encrypted_payload, image_factory=PymagingImage)
