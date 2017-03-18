@@ -28,10 +28,8 @@ def user_info(request, uid):
             user_info.pub_key))
 
 def encode_qr(request):
-    # TODO: Replace this with actual payload
-    payload = "something something"
-    # TODO: Replace this with actual uid
-    uid = "id1"
+    payload = request.body
+    uid = request.POST.get("uid", "") 
 
     # Import public key from DB
     bin_pubkey = UserInfo.objects.get(uid=uid).pub_key
