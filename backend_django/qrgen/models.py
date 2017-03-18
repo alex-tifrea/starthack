@@ -7,7 +7,7 @@ from django.db import models
 class UserInfo(models.Model):
     uid = models.CharField(max_length=32)
     ts = models.DateTimeField()
-    pub_key = models.CharField(max_length=256)
+    pub_key = models.Base64Field()
 
     def __str__(self):
         return self.uid + ":" + self.pub_key
