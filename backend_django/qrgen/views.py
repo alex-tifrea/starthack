@@ -42,7 +42,6 @@ def encode_qr(request):
     """.format(bin_pubkey)
     pubkey_obj = RSA.importKey(formatted_pubkey)
 
-    # TODO: Replace this with encryption
     encrypted_payload = pubkey_obj.encrypt(payload)
 
     img_file = "test.png"
