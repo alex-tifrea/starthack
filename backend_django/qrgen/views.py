@@ -10,6 +10,7 @@ import qrcode
 from qrcode.image.pure import PymagingImage
 
 import uuid
+import subprocess
 
 # Create your views here.
 
@@ -40,7 +41,9 @@ def encode_qr(request):
     """.format(bin_pubkey)
     pubkey_obj = RSA.importKey(formatted_pubkey)
 
-    encrypted_payload = pubkey_obj.encrypt(payload)
+    result = subprocess.run(['python2 crypto_helper.py', formatted_pubkey + " " + payload], stdout=subprocess.PIPE)
+    #encrypted_payload = pubkey_obj.encrypt(payload)
+    encrypted_payload = result.stdout
 
     img_file = "test.png"
     img = qrcode.make(encrypted_payload, image_factory=PymagingImage)
