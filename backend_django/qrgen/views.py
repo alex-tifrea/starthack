@@ -1,6 +1,7 @@
-from django.shortcuts import render
-from qrgen.models import UserInfo
 from django.http import HttpResponse
+from qrgen.models import UserInfo
+from django.shortcuts import render
+from django.utils import timezone
 
 import uuid
 
@@ -11,8 +12,8 @@ def index(request):
 
 def get_uid(request):
     uid = uuid.uuid4()
-    UserInfo.objects.create(uid=)
-    return HttpResponse("Hello, world. You're at the polls index.")
+    UserInfo.objects.create(uid=uid, ts=timezone.now(), pub_key="")
+    return HttpResponse("Created user with UID %s" % uid)
 
 def user_info(request, uid):
     user_info = UserInfo.objects.get(uid=uid)
