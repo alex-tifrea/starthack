@@ -51,17 +51,12 @@ def encode_qr(request):
 #     uid = request.POST.get("uid", "")
 
     # Import public key from DB
-#     str_pubkey = UserInfo.objects.get(uid=uid).pub_key
-#     bin_pubkey = b64decode(bytes(str_pubkey, 'ascii'))
-#     key64 = b'MIGJAoGBAJNrHWRFgWLqgzSmLBq2G89exgi/Jk1NWhbFB9gHc9MLORmP3BOCJS9konzT/+Dk1hdZf00JGgZeuJGoXK9PX3CIKQKRQRHpi5e1vmOCrmHN5VMOxGO4d+znJDEbNHODZR4HzsSdpQ9SGMSx7raJJedEIbr0IP6DgnWgiA7R1mUdAgMBAAE='
-#     pubkey_obj = RSA.importKey(b64decode(key64))
+    str_pubkey = UserInfo.objects.get(uid=uid).pub_key
 
-    # TODO: Use some actual encryption. Maybe.
-#     encrypted_payload = keyPub.encrypt(payload, 0)
+    print(str_pubkey)
 
-    result = subprocess.run(['python2 crypto_helper.py', formatted_pubkey + " " + payload], stdout=subprocess.PIPE)
-    #encrypted_payload = pubkey_obj.encrypt(payload)
-    encrypted_payload = result.stdout
+    encrypted_payload = subprocess.check_output(
+            ['/Users/mozilla/StartHack/starthack/backend_django/qrgen/crypto_helper.py', str_pubkey + "~" + payload])
 
     img_file = 'test.png'
     img = qrcode.make(encrypted_payload, image_factory=PymagingImage)

@@ -1,11 +1,15 @@
+#!/usr/local/bin/python2
+# Author: Rami
+
 import Crypto
 from Crypto.PublicKey import RSA
 from base64 import b64decode
 import ast
 import sys
 
-bin_key = sys.argv[1]
-print bin_key
-pubkey_obj = RSA.importKey(bin_key)
+args = sys.argv[1].split("~")
 
-encrypted = publickey.encrypt(sys.argv[2], 32)
+pubkey_obj = RSA.importKey(b64decode(args[0]))
+
+encrypted = pubkey_obj.encrypt(args[1], 32)
+print encrypted[0]
